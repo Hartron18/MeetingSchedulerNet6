@@ -1,4 +1,6 @@
 using MeetingSchedulerNet6;
+using MeetingSchedulerNet6.Models;
+using MeetingSchedulerNet6.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,8 @@ builder.Services.AddDbContext<MeetingContext>(options =>
 {
     options.UseInMemoryDatabase("MeetingDb");
 });
+builder.Services.AddScoped(typeof(IMeetingService<Meeting>), typeof(MeetingService));
+//builder.Services.AddScoped<typeof(IMeetingService<Meeting>),typeof(MeetingService)>();
 
 var app = builder.Build();
 

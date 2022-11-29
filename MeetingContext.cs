@@ -14,6 +14,6 @@ namespace MeetingSchedulerNet6
             base.OnModelCreating(modelBuilder);
         }
 
-        DbSet<Meeting> MeetingList { get; set; }
+        public DbSet<Meeting> MeetingList { get; set; }
     }
 }
