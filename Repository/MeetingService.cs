@@ -13,15 +13,24 @@ namespace MeetingSchedulerNet6.Repository
 
         public async Task<IReadOnlyList<Meeting>> ListMeeting(DateTime startTime, DateTime endTime)
         {
-            return _context.MeetingList.ToList();
+            var meetings = _context.MeetingList.ToList();
+            meetings.Where(x => (x.StartTime != DateTime.Today) && (x.EndTime != DateTime.Today));
+            meetings.RemoveAll(x => (x.StartTime != DateTime.Today) && (x.EndTime != DateTime.Today));
+
+            return meetings.Where(x => x.StartTime >= startTime && x.EndTime <= endTime).ToList();
         }
 
-        public async Task<IReadOnlyList<Meeting>> ListAvailableSlots(DateTime startTime, DateTime endTime)
+        //public async Task<IReadOnlyList<Meeting>> ListAvailableSlots(DateTime startTime, DateTime endTime)
+        //{
+        //    ;
+        //}
+
+        public void CreateMeeting(Meeting meeting)
         {
-            return _context.MeetingList.ToList();
+            _context.MeetingList.Add(meeting);
+            SaveChanges();
         }
-
-        public void CreateMeeting(Meeting meeting) => _context.Add(meeting);
+        
        // public void DeleteMeeting(Guid meetingId) => DeleteMeeting(meetingId);
        public void SaveChanges() => _context.SaveChangesAsync();
     }
